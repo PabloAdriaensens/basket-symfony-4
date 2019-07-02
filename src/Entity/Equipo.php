@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,7 +33,23 @@ class Equipo
      */
     private $numjugadores;
 
-    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Resultado", mappedBy="equipolocal")
+     */
+    private $resultadoslocal;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Resultado", mappedBy="equipovisitante")
+     */
+    private $resultadovisitante;
+
+    public function __construct()
+    {
+        $this->resultadoslocal = new ArrayCollection();
+        $this->resultadovisitante = new ArrayCollection();
+    }
+
+
 
     public function getId(): ?int
     {
@@ -74,5 +92,65 @@ class Equipo
         return $this;
     }
 
-    
+    /**
+     * @return Collection|Resultado[]
+     */
+    public function getresultadoslocal(): Collection
+    {
+        return $this->resultadoslocal;
+    }
+
+    public function addResultado(Resultado $resultado): self
+    {
+        if (!$this->resultadoslocal->contains($resultado)) {
+            $this->resultadoslocal[] = $resultado;
+            $resultado->setEquipolocal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResultado(Resultado $resultado): self
+    {
+        if ($this->resultadoslocal->contains($resultado)) {
+            $this->resultadoslocal->removeElement($resultado);
+            // set the owning side to null (unless already changed)
+            if ($resultado->getEquipolocal() === $this) {
+                $resultado->setEquipolocal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Resultado[]
+     */
+    public function getResultadovisitante(): Collection
+    {
+        return $this->resultadovisitante;
+    }
+
+    public function addResultadovisitante(Resultado $resultadovisitante): self
+    {
+        if (!$this->resultadovisitante->contains($resultadovisitante)) {
+            $this->resultadovisitante[] = $resultadovisitante;
+            $resultadovisitante->setEquipovisitante($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResultadovisitante(Resultado $resultadovisitante): self
+    {
+        if ($this->resultadovisitante->contains($resultadovisitante)) {
+            $this->resultadovisitante->removeElement($resultadovisitante);
+            // set the owning side to null (unless already changed)
+            if ($resultadovisitante->getEquipovisitante() === $this) {
+                $resultadovisitante->setEquipovisitante(null);
+            }
+        }
+
+        return $this;
+    }
 }
