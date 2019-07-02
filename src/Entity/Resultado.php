@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\ResultadoRepository")
+ */
+class Resultado
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $puntoslocal;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $puntosvisitante;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $cancha;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $fecha;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getPuntoslocal(): ?int
+    {
+        return $this->puntoslocal;
+    }
+
+    public function setPuntoslocal(int $puntoslocal): self
+    {
+        $this->puntoslocal = $puntoslocal;
+
+        return $this;
+    }
+
+    public function getPuntosvisitante(): ?int
+    {
+        return $this->puntosvisitante;
+    }
+
+    public function setPuntosvisitante(int $puntosvisitante): self
+    {
+        $this->puntosvisitante = $puntosvisitante;
+
+        return $this;
+    }
+
+    public function getCancha(): ?string
+    {
+        return $this->cancha;
+    }
+
+    public function setCancha(string $cancha): self
+    {
+        $this->cancha = $cancha;
+
+        return $this;
+    }
+
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(\DateTimeInterface $fecha): self
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+}
